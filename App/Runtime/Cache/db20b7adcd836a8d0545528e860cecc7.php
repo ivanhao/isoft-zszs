@@ -1,0 +1,80 @@
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title></title><style type="text/css">/* common */
+* {
+	word-wrap:break-word;
+	outline:none;
+}
+body {
+	width:159px;
+	background:#F2F9FD url(__PUBLIC__/images/bg_repx_h.gif) right top no-repeat;
+	color:#666;
+	font:12px "Lucida Grande", Verdana, Lucida, Helvetica, Arial, "宋体", sans-serif;
+}
+body, ul {
+	margin:0;
+	padding:0;
+}
+a {
+	color:#2366A8;
+	text-decoration:none;
+}
+a:hover {
+	text-decoration:underline;
+}
+.menu {
+	position:relative;
+	z-index:20;
+}
+.menu ul {
+	position:absolute;
+	top:10px;
+	right:-1px !important;
+	right:-2px;
+	list-style:none;
+	width:150px;
+	background:#F2F9FD url(__PUBLIC__/images/bg_repx_h.gif) right -20px no-repeat;
+}
+.menu li {
+	margin:3px 0;
+*margin:1px 0;
+	height:auto !important;
+	height:24px;
+	overflow:hidden;
+	font-size:14px;
+	font-weight:700;
+}
+.menu li a {
+	display:block;
+	margin-right:2px;
+	padding:3px 0 2px 30px;
+*padding:4px 0 2px 30px;
+	border:1px solid #F2F9FD;
+	background:url(__PUBLIC__/images/bg_repno.gif) no-repeat 10px -40px;
+	color:#666;
+}
+.menu li a:hover {
+	text-decoration:none;
+	margin-right:0;
+	border:1px solid #B5CFD9;
+	border-right:1px solid #FFF;
+	background:#FFF;
+}
+.menu li a.tabon {
+	text-decoration:none;
+	margin-right:0;
+	border:1px solid #B5CFD9;
+	border-right:1px solid #FFF;
+	background:#FFF url(__PUBLIC__/images/bg_repy.gif) repeat-y;
+	color:#2366A8;
+}
+.footer {
+	position:absolute;
+	z-index:10;
+	right:13px;
+	bottom:0;
+	padding:5px 0;
+	line-height:150%;
+	background:url(__PUBLIC__/images/bg_repx.gif) 0 -199px repeat-x;
+	font-family:Arial, sans-serif;
+	font-size:10px;
+}
+</style></head><body><div class="menu"><ul id="leftmenu"><li><a href="__APP__/Index/main" target="main" class="tabon">首页</a></li><?php if($_SESSION['user']['user_type']!=3){ ?><li><a href="__APP__/Instore/add" target="main">入库登记</a></li><?php } ?><li><a href="__APP__/Instore/index" target="main">入库列表</a></li><?php if($_SESSION['user']['user_type']!=3){ ?><li><a href="__APP__/Outstore/add" target="main">出库登记</a></li><?php } ?><li><a href="__APP__/Outstore/index" target="main">出库列表</a></li><li><a href="__APP__/StockManage/stock" target="main">库存管理</a></li><li><a href="__APP__/Stat/index" target="main">统计图表</a></li><?php if($_SESSION['user']['user_type']==1||$_SESSION['user']['user_type']==3){ ?><li><a href="__APP__/BaseData/index" target="main">基本信息管理</a></li><li><a href="__APP__/NoticeManage/index" target="main">通知管理</a></li><li><a href="__APP__/Setting/index" target="main">系统设置</a></li><li><a href="__APP__/UserManage/index" target="main">用户管理</a></li><li><a href="__APP__/Backup/index" target="main">数据备份</a></li><li><a href="__APP__/Log/index" target="main">操作日志</a></li><?php } ?><li><a href="__APP__/Public/bug" target="main">BUG记录单</a></li></ul></div></body></html><script language="JavaScript" src="__PUBLIC__/js/tpl/index_menu.js" type="text/javascript"></script>

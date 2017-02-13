@@ -1,0 +1,63 @@
+<?php
+
+header("Content-type:application/vnd.ms-excel");
+header("Content-Disposition:filename=stock.xls");
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<style>
+body{
+	font-size:12px;
+}
+th{
+	
+}
+table{
+	border-left:1px solid #000000;
+	border-top:1px solid #000000;
+}
+td{
+	border-right:1px solid #000000;
+	border-bottom:1px solid #000000;
+	text-align:center;
+	padding-left:9px;
+	padding-right:9px;
+}
+tr{
+	line-height:25px;	
+}
+</style>
+</head>
+<body>
+    <table border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th>ID</th>
+        <th>产品</th>
+        <th>类别</th>
+        <th>单价</th>
+        <th>数量</th>
+        <th>总价</th>
+        <th>入库日期</th>
+        <th>供应商</th>
+        <th>备注</th>
+      </tr>
+      <?php foreach($list as $key=>$row){ ?>
+      <tr>
+        <td><?php echo $row["stk_id"]; ?></td>
+        <td><?php echo $row["stk_prodname"]; ?></td>
+        <td><?php echo $row["pdca_name"]; ?></td>
+        <td><?php echo $row["stk_price"]; ?></td>
+        <td><?php echo $row["stk_count"]; ?></td>
+        <td><?php echo $row["stk_total"]; ?></td>
+        <td><?php echo $row["stk_datetime"]; ?></td>
+        <td><?php echo $row["sto_name"]; ?></td>
+        <td><?php echo $row["stk_remark"]; ?></td>
+      </tr>
+      <?php } ?>
+    </table>
+</body>
+</html>

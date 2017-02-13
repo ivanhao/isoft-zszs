@@ -1,0 +1,18 @@
+<style>
+.ul_navi{margin:20px 0px 20px 0px;}
+.ul_navi>li{display:inline;margin-right:2px;border-radius:10px 10px 0px 0px;
+padding:6px 12px;border: 1px solid #aed0ea;font-weight:bold;font-size:13px}
+.li_link{background:#EAF4FC;}
+.li_link a{color:#2366A8;}
+.li_active{background:#57B6E7;color:white}
+.li_active a{color:white}
+</style>
+<ul class="ul_navi">
+	<li <?php if($action=="product"){echo "class='li_active'";}else{echo "class='li_link'";} ?>><a href="__URL__/product">产品管理</a></li>
+	<li <?php if($action=="cate"){echo "class='li_active'";}else{echo "class='li_link'";} ?>><a href="__URL__/cate">产品类别管理</a></li>
+	<li <?php if($action=="supplier"){echo "class='li_active'";}else{echo "class='li_link'";} ?>><a href="__URL__/supplier">供应商管理</a></li>
+	<li <?php if($action=="customer"){echo "class='li_active'";}else{echo "class='li_link'";} ?>><a href="__URL__/customer">用户管理</a></li>
+	<li <?php if($action=="dept"){echo "class='li_active'";}else{echo "class='li_link'";} ?>><a href="__URL__/dept">部门管理</a></li>
+	<li <?php if($action=="store"){echo "class='li_active'";}else{echo "class='li_link'";} ?>><a href="__URL__/store">仓库管理</a></li>
+	<!--<li <?php if($action=="employee"){echo "class='li_active'";}else{echo "class='li_link'";} ?>><a href="__URL__/employee">员工管理</a></li>-->
+</ul>

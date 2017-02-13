@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<js href="__PUBLIC__/js/jquery/jquery-1.7.2.js" />
+<css href="__PUBLIC__/css/admincp.css" />
+
+<!-- dialog -->
+<link rel="stylesheet" href="__PUBLIC__/js/jquery/themes/custom-theme/jquery.ui.all.css">
+<script src="__PUBLIC__/js/jquery/jquery-1.7.2.js"></script>
+<script src="__PUBLIC__/js/jquery/external/jquery.bgiframe-2.1.2.js"></script>
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.core.js"></script>
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.widget.js"></script>
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.mouse.js"></script>
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.button.js"></script>
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.draggable.js"></script>
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.position.js"></script>
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.dialog.js"></script>
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.resizable.js"></script>
+<!-- dialog -->
+
+<!-- autocomplete -->
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.autocomplete.js"></script>
+<style>
+.ui-autocomplete-category {font-weight: bold;padding: .2em .4em;margin: .8em 0 .2em;line-height: 1.5;color:#2E6E9E;}
+#div_button{text-align:center}
+</style>
+<!-- autocomplete -->
+
+<!-- button -->
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.button.js"></script>
+<!-- button -->
+
+</head>
+<body>
+<div class="container">
+    <h3><?php echo $title; ?></h3>
+    <div class="mainbox">
+        <form id="form1" method="post">
+            流水编号：<input name="ism_sn" type="text" id="ism_sn" size="30" value="<?php echo $main['ism_sn']; ?>" readonly="readonly"/>&nbsp;&nbsp;&nbsp;
+            <!--经办人：<input name="ism_operator_name" type="text" id="ism_operator_name" size="20" value="<?php if($action=='add'){echo '请输入关键字或空格';}else{echo $main['ism_operator_name'];}; ?>" style="<?php if($action=='add')echo 'color:#CCC'; ?>" onfocus='clearTip(this)'  onblur='fillTip(this)'/>&nbsp;&nbsp;&nbsp;-->
+            <!--联系电话：<input name="ism_phone" type="text" id="ism_phone" size="20" />&nbsp;&nbsp;-->
+            <!--供应商：<input name="ism_supplier_name" type="text" id="ism_supplier_name" size="20" value="<?php if($action=='add'){echo '请输入关键字或空格';}else{echo $main['ism_supplier_name'];}; ?>" style="<?php if($action=='add')echo "color:#CCC"; ?>" onfocus='clearTip(this)'  onblur='fillTip(this)'/>&nbsp;&nbsp;&nbsp;-->
+            制单人：<input name="ism_writer_name" type="text" id="ism_writer_name" size="20" value="<?php if($action=='add'){echo $_SESSION["user"]["user_realname"];}else{echo $main['ism_writer_name'];}; ?>" style="<?php if($action=='add')echo "color:#CCC"; ?>" onfocus='clearTip(this)'  onblur='fillTip(this)'/>&nbsp;&nbsp;&nbsp;
+            <?php if($action=='add' || $action=='update'){ ?><input class="btn" type="button" value="添加明细" id="btnAdd"/><?php } ?>
+            <div class="mainbox">
+              <table width="100%" class="datalist fixwidth" id="table">
+                <tr>
+                  <th>产品名</th>
+                  <th>类别</th>
+                  <th>单价</th>
+                  <th>数量</th>
+                  <th>总价</th>
+                  <th>供应商</th>
+                  <th>备注</th>
+                  <?php if($action=='add' || $action=='update'){ ?><th>操作</th><?php } ?>
+                </tr>
+                <?php foreach($list_sub as $key=>$row){ ?>
+                    <tr class='tr_row' id="row_<?php echo $key; ?>">
+                      <td align='center'><input name='iss_prodname[]' type='text' id="iss_prodname_<?php echo $key; ?>" size='17' value="<?php if($action=='add'){echo '请输入关键字或空格';}else{echo $row['prod_name'];}; ?>" style="<?php if($action=='add')echo 'color:#CCC'; ?>" onfocus='clearTip(this)' onblur='fillTip(this)'/></td>
+                      <td align='center'><input type='text' id="iss_cate_name_<?php echo $key; ?>" size='10' disabled='disabled' value="<?php echo $row['pdca_name']; ?>" readonly="readonly"/></td>
+                      <td align='center'><input name='iss_price[]' type='text' id="iss_price_<?php echo $key; ?>" size='10' onblur="compute(<?php echo $key; ?>)" value="<?php echo $row['iss_price']; ?>"/></td></td>
+                      <td align='center'><input name='iss_count[]' type='text' id="iss_count_<?php echo $key; ?>" size='10' onblur="compute(<?php echo $key; ?>)" value="<?php echo $row['iss_count']; ?>"/></td>
+                      <td align='center'><input name='iss_total[]' type='text' id="iss_total_<?php echo $key; ?>" size='10' value="<?php echo $row['iss_total']; ?>"/></td>
+                      <td align='center'>
+                      <select name='iss_store[]' id="iss_store_<?php echo $key; ?>">
+                        <option value=''>--请选择--</option>
+                        <?php foreach($list_store as $row_store){ ?>
+                          <option value="<?php echo $row_store['sto_id'] ?>" <?php if($row_store['sto_id']==$row['iss_store'])echo "selected='true'"; ?>><?php echo $row_store['sto_name'] ;?></option>
+                        <?php } ?>
+                      </select>
+                      </td>
+                      <td align='center'>
+                      <input name='iss_remark[]' type='text' id='iss_remark' size='25' value="<?php echo $row['iss_remark']; ?>"/>
+                      <input name='iss_prod[]' type='hidden' id='iss_prod' value="<?php echo $row['iss_prod']; ?>"/>
+                      <input name='iss_cate[]' type='hidden' id='iss_cate' value="<?php echo $row['iss_cate']; ?>"/>
+                      </td>
+                      <?php if($action=='add' || $action=='update'){ ?><td align='center'><a href='#' id="linkDelete_<?php echo $key; ?>" name='linkDelete' onclick="deleteRow(<?php echo $key; ?>)">删除</a></td><?php } ?>
+                    </tr>
+                <?php } ?>
+              </table>
+            </div>
+			<div id="div_button">
+				<?php if($action=='add' || $action=='update'){ ?><input id="btn_submit" class="btn" type="button" value="保存" />&nbsp;&nbsp;&nbsp;<?php } ?>
+				<input class="btn" type="button" value="返回" onclick="window.history.back()"/>
+			<div>
+            <input name="ism_id" id="ism_id" type="hidden" value="<?php echo $main['ism_id'];?>"/>
+            <input name="ism_writer" id="ism_writer" type="hidden" value="<?php echo $main['ism_writer'];?>"/>
+            <input name="ism_supplier" id="ism_supplier" type="hidden" value="<?php echo $main['ism_supplier'];?>"/>
+            <input name="ism_operator" id="ism_operator" type="hidden" value="<?php echo $main['ism_operator'];?>"/>
+        </form>
+    </div>
+</div>
+<div id="dialogNoData" style="display:none"><br>
+  <table width="100%" border="0" align="left" class="p_table2">
+    <tr>
+      <td align="left" id='msg'></td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>
+<script>
+var action="<?php echo $action; ?>";
+var url="__URL__";
+</script>
+<script language="JavaScript" src="__PUBLIC__/js/tpl/instore_add.js" type="text/javascript"></script>

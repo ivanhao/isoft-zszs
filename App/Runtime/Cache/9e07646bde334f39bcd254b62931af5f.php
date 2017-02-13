@@ -1,0 +1,1 @@
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title></title></head><body><table><?php foreach($list as $key=>$row){ ?><tr><td>|<?php echo ($row["npath"]); ?></td></tr><?php } ?></table></body></html>

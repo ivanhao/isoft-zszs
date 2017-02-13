@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<css href="__PUBLIC__/css/admincp.css" />
+
+<!-- dialog -->
+<link rel="stylesheet" href="__PUBLIC__/js/jquery/themes/custom-theme/jquery.ui.all.css">
+<script src="__PUBLIC__/js/jquery/jquery-1.7.2.js"></script>
+<script src="__PUBLIC__/js/jquery/external/jquery.bgiframe-2.1.2.js"></script>
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.core.js"></script>
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.widget.js"></script>
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.mouse.js"></script>
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.button.js"></script>
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.draggable.js"></script>
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.position.js"></script>
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.dialog.js"></script>
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.resizable.js"></script>
+<!-- dialog -->
+
+<!-- datepicker -->
+<!--<script src="__PUBLIC__/js/jquery/ui/jquery.ui.widget.js"></script>-->
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.datepicker.js"></script>
+<script src="__PUBLIC__/js/jquery/ui/i18n/jquery.ui.datepicker-zh-CN.js"></script>
+<script src="__PUBLIC__/js/jquery/ui/jquery.effects.core.js"></script>
+<!-- datepicker -->
+
+<!-- autocomplete -->
+<!--<script src="__PUBLIC__/js/jquery/ui/jquery.ui.core.js"></script>
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.widget.js"></script>
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.position.js"></script>-->
+<script src="__PUBLIC__/js/jquery/ui/jquery.ui.autocomplete.js"></script>
+<style>
+.ui-autocomplete-category {
+	font-weight: bold;
+	padding: .2em .4em;
+	margin: .8em 0 .2em;
+	line-height: 1.5;
+	color:#2E6E9E;
+}
+</style>
+<!-- autocomplete -->
+
+</head>
+<body>
+<div class="container">
+  <h3>入库列表</h3>
+  <!--<select name="searchBy" id="searchBy">
+    <option value="ism_sn" <?php if($searchBy=='ism_sn'){echo "selected='true'";}; ?>>流水编号</option>
+    <option value="ism_operator" <?php if($searchBy=='ism_operator'){echo "selected='true'";}; ?>>经办人</option>
+    <option value="ism_writer" <?php if($searchBy=='ism_writer'){echo "selected='true'";}; ?>>制单人</option>
+    <option value="ism_supplier" <?php if($searchBy=='ism_supplier'){echo "selected='true'";}; ?>>卖方单位</option>
+  </select>&nbsp;&nbsp;
+  <input type="text" name="keyword" id="keyword" value="<?php echo $keyword; ?>" size="30"/>&nbsp;&nbsp;
+  <input type="button" id="fastSearch" value="快查" class="btn"/>&nbsp;&nbsp;-->
+  <input type="button" id="button2" value="查询" onclick="toSearch()" class="btn"/>&nbsp;&nbsp;
+  <?php if($_SESSION['user']['user_type']!=3){ ?>
+  <input type="button" id="btnAdd" value="添加" class="btn"/>
+  <?php } ?>
+  <input class="btn" type="button" value="导出Execl" id="btnExport"/>
+<div class="mainbox">
+    <form action="" method="post">
+      <table class="datalist fixwidth">
+        <tr>
+          <th>流水编号</th>
+          <th>产品名称</th>
+          <th>产品单价</th>
+          <th>数量</th>
+          <th>金额</th>
+          <th>供应商</th>
+          <th>制单人</th>
+          <th>入库日期</th>
+          <th>备注</th>
+         <?php if($_SESSION['user']['user_type']==3){ ?> <th>操作</th><?php } ?>
+        </tr>
+        <?php foreach($list as $key=>$row){ ?>
+        <tr>
+          <td align="center"><a href="__URL__/view/ism_id/<?php echo $row["ism_id"]; ?>"><?php echo $row["ism_sn"]; ?></a></td>
+          <td align="center"><?php echo $row["iss_prodname"]; ?></td>
+          <td align="center"><?php echo $row["iss_price"]; ?></td>
+          <td align="center"><?php echo $row["count"]; ?></td>
+          <td align="center"><?php echo $row["total"]; ?></td>
+          <td align="center"><?php echo $row["iss_store_name"]; ?></td>
+          <td align="center"><?php echo $row["ism_writer_name"]; ?></td>
+          <td align="center"><?php echo $row["ism_datetime"]; ?></td>
+          <td align="center"><?php echo $row["iss_remark"]; ?></td>
+          <td align="center">
+		  <?php if($_SESSION['user']['user_type']==3){ ?>
+          <a href="__URL__/toEdit/ism_id/<?php echo $row["ism_id"]; ?>">编辑</a>&nbsp;&nbsp;
+          <a href="#" onclick="del(<?php echo $row['ism_id']; ?>)">删除</a>
+		  <?php } ?>
+          </td>
+        </tr>
+        <?php } ?>
+        <tr>
+          <td align="center">合计</td>
+          <th></th>
+          <th></th>
+          <td align="center">{$sumNum}</td>
+          <td align="center">{$sumtotal}</td>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr class="nobg">
+          <td colspan="10" align="center"><?php echo $page; ?></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>
+<div id="dialog" title="入库查询" style="display:none">
+  <br><br>
+  <table width="100%" border="0" align="left" class="p_table2">
+    <tr>
+      <td height="35" align="right"> 流水编号： </td>
+      <td align="left"><input name="ism_sn" type="text" id="ism_sn" size="28" /></td>
+      <!--<td align="right">供应商：</td>-->
+      <!--<td align="left"><input name="ism_supplier_name" type="text" id="ism_supplier_name" size="28" value='请输入关键字或空格' style='color:#CCC' onfocus='clearTip(this)'  onblur='fillTip(this)'/></td>-->
+    </tr>
+    <tr>
+      <!--<td height="35" align="right">经办人： </td>-->
+      <!--<td align="left"><input name="ism_operator_name" type="text" id="ism_operator_name" size="28" value='请输入关键字或空格' style='color:#CCC' onfocus='clearTip(this)'  onblur='fillTip(this)'/></td>-->
+      <td align="right">产品：</td>
+      <td align="left"><input name="iss_prodname" type="text" id="iss_prodname" size="28" value='请输入关键字或空格' style='color:#CCC' onfocus='clearTip(this)'  onblur='fillTip(this)'/></td>
+    </tr>
+    <tr>
+      <td height="35" align="right">供应商： </td>
+      <td align="left"><input name="iss_store_name" type="text" id="iss_store_name" size="28" value='请输入关键字或空格' style='color:#CCC' onfocus='clearTip(this)'  onblur='fillTip(this)'/></td>
+      <td align="right">金额：</td>
+      <td align="left">从&nbsp;<input name="iss_total_start" type="text" id="iss_total_start" size="10" />&nbsp;到&nbsp;<input name="iss_total_end" type="text" id="order_date4" size="10" /></td>
+    </tr>
+    <tr>
+      <td height="35" align="right">制单： </td>
+      <td align="left"><input name="ism_writer_name" type="text" id="ism_writer_name" size="28" value='请输入关键字或空格' style='color:#CCC' onfocus='clearTip(this)'  onblur='fillTip(this)'/></td>
+      <td align="right">日期：</td>
+      <td align="left">从&nbsp;<input name="ism_date_start" type="text" class="textfield01" id="ism_date_start" size="10" readonly/>&nbsp;到&nbsp;<input name="ism_date_end" type="text" class="textfield01" id="ism_date_end" size="10" readonly/></td>
+    </tr>
+  </table>
+</div>
+<script language="JavaScript" src="__PUBLIC__/js/tpl/instore_index.js" type="text/javascript"></script>
+</body>
+</html>

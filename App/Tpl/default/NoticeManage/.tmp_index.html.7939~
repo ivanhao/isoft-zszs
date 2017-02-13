@@ -1,0 +1,112 @@
+<layout name="Public:header_list" cache="0" />
+<div class="container">
+  <h3>通知管理</h3>
+  <select name="searchBy" id="searchBy">
+    <option value="0" <?php if($_GET['searchBy']=="0")echo "selected='true'"; ?>>全部</option>
+    <option value="1" <?php if($_GET['searchBy']=="1")echo "selected='true'"; ?>>标题</option>
+    <option value="2" <?php if($_GET['searchBy']=="2")echo "selected='true'"; ?>>内容</option>
+    <option value="3" <?php if($_GET['searchBy']=="3")echo "selected='true'"; ?>>作者</option>
+  </select>
+  <input type="text" name="keyword" id="keyword" />
+  <input type="button" name="fastSearch" id="fastSearch" value="查询" />
+  <input type="button" name="button2" id="btnAdd" value="新增" onclick="add()" />
+  <div class="mainbox">
+    <form action="" method="post">
+      <table class="datalist fixwidth">
+        <tr>
+          <th style="text-align: center">id</th>
+          <th style="text-align: center">标题</th>
+          <th style="text-align: center">内容</th>
+          <th style="text-align: center">作者</th>
+          <th style="text-align: center">日期</th>
+          <th style="text-align: center">操作</th>
+        </tr>
+        <?php foreach($list as $row){ ?>
+        <tr>
+          <td align="center"><?php echo $row["ntc_id"]; ?></td>
+          <td align="center"><?php echo msubstr($row["ntc_title"],0,15); ?></td>
+          <td align="center"><?php echo msubstr($row["ntc_content"],0,25); ?></td>
+          <td align="center"><?php echo msubstr($row["ntc_author"],0,10); ?></td>
+          <td align="center"><?php echo $row["ntc_datetime"]; ?></td>
+          <td align="center"><a href="#" onClick="view(<?php echo $row['ntc_id']; ?>)">查看</a> <a href="#" onClick="toEdit(<?php echo $row['ntc_id']; ?>)">编辑</a> <a href="#" onclick="del(<?php echo $row["ntc_id"]; ?>)">删除</a></td>
+        </tr>
+        <?php } ?>
+        <tr class="nobg">
+          <td colspan="8" align="center"><?php echo $page; ?></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>
+<script>
+$("#fastSearch").click(function(){
+	window.location.href="__URL__/index/searchBy/"+$("#searchBy").val()+"/keyword/"+$("#keyword").val();	
+});
+function del(id){
+	if(confirm("确认删除吗？")){
+		window.location.href="__URL__/delete/ntc_id/"+id;
+	}
+}
+
+function add(){
+ $.FrameDialog
+	.create({
+		url: "__URL__/add",
+		title: '新增通知',
+		height: '400',
+		width:'600'
+	}).bind('dialogclose', function(event, ui) {
+		if ($.FrameDialog._results == "OK"){
+			var content = $("iframe").contents();
+			
+			var ntc_title = content.find("textarea[name='ntc_title']").val();
+			var ntc_content = content.find("textarea[name='ntc_content']").val();
+			var ntc_author = content.find("input[name='ntc_author']").val();
+								
+			action_url = "__URL__/doAdd";
+			if (ntc_title != "")action_url += "/ntc_title/"+ ntc_title;
+			if (ntc_content != "")action_url += "/ntc_content/"+ ntc_content;
+			if (ntc_author != "")action_url += "/ntc_author/"+ ntc_author;
+			//alert(action_url);
+			window.location.href = action_url;
+		}
+	})
+}
+function view(id){
+ $.FrameDialog.create({
+		url: "__URL__/view/ntc_id/"+id,
+		title: '查看',
+		height: '400',
+		width:'600'
+	}).bind('dialogclose', function(event, ui) {
+		if ($.FrameDialog._results == "OK"){
+			
+		}
+	})
+}
+function toEdit(id){
+ $.FrameDialog.create({
+		url: "__URL__/toEdit/ntc_id/"+id,
+		title: '编辑',
+		height: '400',
+		width:'600'
+	}).bind('dialogclose', function(event, ui) {
+		if ($.FrameDialog._results == "OK"){
+			var content = $("iframe").contents();
+			
+			var ntc_id = content.find("input[name='ntc_id']").val();
+			var ntc_title = content.find("textarea[name='ntc_title']").val();
+			var ntc_content = content.find("textarea[name='ntc_content']").val();
+			var ntc_author = content.find("input[name='ntc_author']").val();
+								
+			action_url = "__URL__/doEdit";
+			if (ntc_id != "")action_url += "/ntc_id/"+ ntc_id;
+			if (ntc_title != "")action_url += "/ntc_title/"+ ntc_title;
+			if (ntc_content != "")action_url += "/ntc_content/"+ ntc_content;
+			if (ntc_author != "")action_url += "/ntc_author/"+ ntc_author;
+			window.location.href = action_url;
+		}
+	})
+}
+</script>
+<layout name="Public:footer" cache="120" />
